@@ -27,6 +27,11 @@ Route::get('/home', [PostController::class, 'index'])->name('home');
 
 Route::get('/post', [PostController::class, 'create'])->name('post.create');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::post('/posts/index', [PostController::class, 'index'])->name('post.index');
+
+Route::post('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
