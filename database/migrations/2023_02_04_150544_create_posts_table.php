@@ -14,11 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('name');
+            $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('title');
             $table->string('content');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
