@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('likes', function (Blueprint $table) {
-            #foreignId('xx_id')で、users tableのidを外部キーにとる。
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('post_id')->constrained()->onDelete('cascade');
-
-            $table->primary(['post_id', 'user_id']);
+        Schema::create('tags', function (Blueprint $table) {
+            $table->id();
+            $table->string('tag_label');
+            $table->timestamps();
         });
     }
 
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('likes');
+        Schema::dropIfExists('tags');
     }
 };
