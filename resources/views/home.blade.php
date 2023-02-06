@@ -4,6 +4,17 @@
             {{ __('Home') }}
         </h2>
     </x-slot>
+    <!-- エラー表示 -->
+    <div>  
+        @if ($errors->any())  
+            <ul>  
+                @foreach ($errors->all() as $error)  
+                    <li>{{ $error }}</li>  
+                @endforeach  
+            </ul>  
+        @endif  
+    </div>
+
     <!-- 投稿フォーム -->
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -42,9 +53,10 @@
                     @foreach ($posts as $post)
                         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-7 border border-gray-500">
                             <p class="text-xl font-bold">{{ $post->title }}</p>
+                            <p>{{ $post->tag_label }}</p>
                             <p>{{ $post->content }}</p>
                             <p>{{ $post->created_at }}</p>
-                            <p>{{ $post->name }}</p>
+                            <p>by {{ $post->name }}</p>
                         </div>
                      @endforeach
             </div>

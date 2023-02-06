@@ -2,14 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PostStoreRequest;
 use Illuminate\Http\Request;
 #使用するモデルの読み込み。
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\User;
+
 use Illuminate\Support\Facades\Redis;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+
     public function index()
     {
         $posts = Post::all();
@@ -19,25 +24,21 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('post/create');
+        $tags = Tag::all();
+        return view('post/create', compact('tags'));
     }
 
-    public function store(Request $request)
+    public function store(PostStoreRequest $request)
     {
-        $post = new Post;
-        #投稿内容の代入
-        $post->user()->name = $request->user()->name;
-        #入ってきたユーザーのidを取得して、ポストテーブルのuser_idに代入する。
-        $post->user_id = $request->user()->id; 
-        $post->title = $request->title;
-        $post->content = $request->content;
+        $validatedData = ($request->validated() + ['user_id' => Auth::id()]);
+        $post = Post::create($validatedData);
+        
+        if($request->has('tags'))
+        {
+           $post->tags()->attach($request->tags);
+        }
 
-        #タグの代入
-        $post->tags()->tag_label = $request->tag_label;
-
-        #全てを保存
-        $post->save();
-        return redirect()->route('home');
+        return to_route('post.create');
     } 
 
     public function search(Request $request)
