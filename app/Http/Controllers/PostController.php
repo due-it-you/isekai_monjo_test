@@ -19,6 +19,7 @@ class PostController extends Controller
     {
         $posts = Post::all();
         $data = ['posts' => $posts];
+        // dd($data);
         return view('home', $data);
     }
 
@@ -47,7 +48,26 @@ class PostController extends Controller
                  ->orwhere('content', 'like', "%{$request->search}%")
                  ->paginate(5);
 
+        if($request->has($request->query('tag')))
+        {
+            $tag = $request->query('tag');
+
+            $posts = Post::whereHas('tags', function ($query) use ($tag) 
+            {
+                $query->where('tag_label', $tag);
+            })->get();
+
+            return view('post.tag.show', compact('posts'));
+        }
+
         return view('post.index', ['posts' => $posts]);
+    }
+
+    public function destroy($id)
+    {
+        $post = Post::find($id);
+        $post->delete();
+        return redirect()->route('home')->with('success', '投稿が削除されました');
     }
 
 }

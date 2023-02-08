@@ -45,20 +45,28 @@
             </div> 
         </div>    
     </div>
-    <!-- 投稿の一覧表示 -->
+        <!-- 投稿の一覧表示 -->
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             <div class="p-6 text-gray-900">
                 <p class="text-xl font-extrabold">投稿一覧</p>
-                    @foreach ($posts as $post)
-                        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-7 border border-gray-500">
-                            <p class="text-xl font-bold">{{ $post->title }}</p>
-                            <p>{{ $post->tag_label }}</p>
-                            <p>{{ $post->content }}</p>
-                            <p>{{ $post->created_at }}</p>
-                            <p>by {{ $post->name }}</p>
-                        </div>
-                     @endforeach
+                @foreach ($posts as $post)
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-7 border border-gray-500">
+                    <p class="text-xl font-bold">{{ $post->title }}</p>
+                    @foreach($post->tags as $tag)
+                    <div>
+                        <a href="/posts/search?tag={{ $tag->tag_label }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#{{ $tag->tag_label }}</a>
+                    </div>
+                    @endforeach
+                    <p>{{ $post->content }}</p>
+                    <p>{{ $post->created_at }}</p>
+                    <p>by {{ $post->user->name }}</p>
+                    <form method="POST" action="{{ route('post.destroy', ['id' => $post->id]) }}">
+                        @csrf
+                    <button type="submit" class="btn btn-danger text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">削除</button>
+                    </form>
+                </div>
+                @endforeach
             </div>
         </div>
     </div>
