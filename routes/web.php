@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,16 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/home', [PostController::class, 'index'])->middleware(['auth'])->name('home');
+
+Route::get('/post', [PostController::class, 'create'])->name('post.create');
+Route::post('/post', [PostController::class, 'store'])->name('post.store');
+Route::post('/destroy/{id}', [PostController::class, 'destroy'])->name('post.destroy');
+Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
+
+Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
