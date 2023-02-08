@@ -70,5 +70,14 @@
             </div>
         </div>
     </div>
+
+    <nav aria-label="Page navigation example">
+        <ul class="flex justify-center py-3">
+          <li class="mx-2">
+            {{ $posts->links() }}
+          </li>
+        </ul>
+    </nav>
+      
 </div>
 </x-app-layout>
