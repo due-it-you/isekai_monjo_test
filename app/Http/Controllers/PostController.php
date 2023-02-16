@@ -55,12 +55,9 @@ class PostController extends Controller
             $posts = Post::whereHas('tags', function ($query) use ($tag) 
             {
                 $query->where('tag_label', $tag);
-            })->get();
+            })->paginate(5);
 
             return view('post.tag.show', compact('posts'));
-        
-
-        return view('post.index', ['posts' => $posts]);
     }
 
     public function destroy($id)
