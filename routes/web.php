@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,8 +30,9 @@ Route::get('/post', [PostController::class, 'create'])->name('post.create');
 Route::post('/post', [PostController::class, 'store'])->name('post.store');
 Route::post('/destroy/{id}', [PostController::class, 'destroy'])->name('post.destroy');
 Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
-
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
+
+Route::post('/tags', [TagController::class, 'store']);
 
 
 Route::middleware('auth')->group(function () {

@@ -26,22 +26,28 @@
                 <input name="title" placeholder="タイトルの入力欄"/>
             </div>
             <div>
+                タグ：
+                <input name="tag_label" placeholder="タグの入力欄"/>
+            </div>
+            <div>
                 <textarea name="content" placeholder="内容の入力"></textarea>
             </div>
-
             <div class="m-2 p-2">
                 <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
                     tags</label>
-                <select id="tags" name="tags[]"
+                    <select id="tags" name="tags[]"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     multiple>
                     @foreach ($tags as $tag)
-                        <option value="{{ $tag->id }}">{{ $tag->tag_label }}</option>
+                    <option value="{{ $tag->id }}">{{ $tag->tag_label }}</option>
                     @endforeach
                 </select>
             </div>
-
             <button>送信</button>
         </form>
+        <!-- タグの作成 -->
+        {{-- <div id="app">
+            <create-store-tag-component></create-store-tag-component>
+        </div> --}}
     </div>
 </x-app-layout>

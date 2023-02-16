@@ -39,7 +39,11 @@ class PostController extends Controller
            $post->tags()->attach($request->tags);
         }
 
-        return to_route('post.create');
+        $tag = Tag::firstOrCreate([
+            'tag_label' => $request->input('tag_label')
+        ]);
+
+        return to_route('home');
     } 
 
     public function search(Request $request)
