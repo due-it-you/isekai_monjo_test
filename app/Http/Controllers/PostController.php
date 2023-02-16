@@ -39,18 +39,9 @@ class PostController extends Controller
         ]);
 
         //tag_postの中間テーブルに保存
-        if($tag->wasRecentlyCreated)
-        {
-            $post->tags()->attach($tag->id);
-        }
-        else
-        {
-            $post->tags()->syncWithoutDetaching([$tag->id]);
-        }
+        $post->tags()->sync($tag->id);
 
-        $latestPost = Post::latest()->first(); // 最新の投稿を取得
-
-        return to_route('home', ['post' => $latestPost]);
+        return to_route('home');
     } 
 
     public function search(Request $request)
