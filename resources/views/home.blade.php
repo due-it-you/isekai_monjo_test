@@ -53,6 +53,7 @@
                 @foreach ($posts as $post)
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-7 border border-gray-500">
                     <p class="text-xl font-bold">{{ $post->title }}</p>
+                    <!-- $post->tagsはリレーションを指定して、tagのインスタンスを取得 -->
                     @foreach($post->tags as $tag)
                     <div>
                         <a href="/posts/search?tag={{ $tag->tag_label }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#{{ $tag->tag_label }}</a>
@@ -71,6 +72,7 @@
         </div>
     </div>
 
+    {{-- ページネーション --}}
     <nav aria-label="Page navigation example">
         <ul class="flex justify-center py-3">
           <li class="mx-2">
