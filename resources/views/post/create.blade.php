@@ -32,8 +32,8 @@
             <div>
                 <textarea name="content" placeholder="内容の入力"></textarea>
             </div>
-            <div class="m-2 p-2">
-                <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">Select
+            {{-- <div class="m-2 p-2">
+                <label for="tags" class="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-400">試験用Select
                     tags</label>
                     <select id="tags" name="tags[]"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -42,7 +42,7 @@
                     <option value="{{ $tag->id }}">{{ $tag->tag_label }}</option>
                     @endforeach
                 </select>
-            </div>
+            </div> --}}
             <button>送信</button>
         </form>
         <!-- タグの作成 -->

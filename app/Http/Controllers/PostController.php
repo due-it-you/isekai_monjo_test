@@ -19,7 +19,6 @@ class PostController extends Controller
     {
         $posts = Post::paginate(5);
         $data = ['posts' => $posts];
-        // dd($data);
         return view('home', $data);
     }
 
@@ -34,16 +33,24 @@ class PostController extends Controller
         $validatedData = ($request->validated() + ['user_id' => Auth::id()]);
         $post = Post::create($validatedData);
         
-        if($request->has('tags'))
-        {
-           $post->tags()->attach($request->tags);
-        }
-
+        //DBに保存
         $tag = Tag::firstOrCreate([
             'tag_label' => $request->input('tag_label')
         ]);
 
-        return to_route('home');
+        //tag_postの中間テーブルに保存
+        if($tag->wasRecentlyCreated)
+        {
+            $post->tags()->attach($tag->id);
+        }
+        else
+        {
+            $post->tags()->syncWithoutDetaching([$tag->id]);
+        }
+
+        $latestPost = Post::latest()->first(); // 最新の投稿を取得
+
+        return to_route('home', ['post' => $latestPost]);
     } 
 
     public function search(Request $request)

@@ -26,7 +26,7 @@ class PostStoreRequest extends FormRequest
         return [
             'title' => ['required', 'min:3'],
             'content' => ['required', 'min:3'],
-            
+            'tag_label' => ['required', 'min:3'],
         ];
     }
 }
