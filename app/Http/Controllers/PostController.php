@@ -30,7 +30,9 @@ class PostController extends Controller
 
     public function store(PostStoreRequest $request)
     {
+        //バリデーションをかけた投稿内容と、その投稿主のログインidを取得
         $validatedData = ($request->validated() + ['user_id' => Auth::id()]);
+        //それらをPostテーブルに登録
         $post = Post::create($validatedData);
         
         //DBに保存
@@ -50,8 +52,10 @@ class PostController extends Controller
                  ->orwhere('content', 'like', "%{$request->search}%")
                  ->paginate(5);
 
+            //クエリパラメータの値を取得
             $tag = $request->query('tag');
 
+            //クエリパラメータの値と同じタグを持つポストを取得してページネーション
             $posts = Post::whereHas('tags', function ($query) use ($tag) 
             {
                 $query->where('tag_label', $tag);

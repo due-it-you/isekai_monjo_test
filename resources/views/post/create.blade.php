@@ -27,7 +27,7 @@
             </div>
             <div>
                 タグ：
-                <input name="tag_label" placeholder="タグの入力欄"/>
+                <input name="tag_label" id="tag_search" placeholder="タグの入力欄"/>
             </div>
             <div>
                 <textarea name="content" placeholder="内容の入力"></textarea>

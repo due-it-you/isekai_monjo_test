@@ -18,11 +18,15 @@ import {
 const app = createApp({
     components: {
         CreateStoreTagComponent,
+        SuggestTag,
     }
 }).mount('#app');
 
 import CreateStoreTagComponent from './components/CreateStoreTagComponent.vue';
 app.component('create-store-tag-component', CreateStoreTagComponent);
+
+import SuggestTagComponent from './components/SuggestTagComponent.vue';
+app.component('suggest-tag-component', SuggestTagComponent);
 
 
 /**
