@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('定義する') }}
+            {{ __('更新する') }}
         </h2>
     </x-slot>
 
@@ -15,22 +15,22 @@
 	        </ul>
 	    </div>
 	    @endif
-        <form action="{{ route('post.store') }}" method="POST">
+        <form  method="POST">
             @csrf
             <div>
                 名前：
-                <input name="name" value="名前の入力欄"/>
+                <input name="name" value="{{ $post->user->name }}"/>
             </div>
             <div>
                 タイトル：
-                <input name="title" placeholder="タイトルの入力欄"/>
+                <input name="title" value="{{ $post->title }}"/>
             </div>
             <div>
                 タグ：
-                <input name="tag_label" id="tag_search" placeholder="タグの入力欄"/>
+                <input name="tag_label" id="tag_search" value=""/>
             </div>
             <div>
-                <textarea name="content" placeholder="内容の入力"></textarea>
+                <textarea name="content">{{ $post->content }}</textarea>
             </div>
             <button>送信</button>
         </form>
