@@ -62,7 +62,11 @@
                     <p>{{ $post->content }}</p>
                     <p>{{ $post->created_at }}</p>
                     <p>by {{ $post->user->name }}</p>
-                    <form method="POST" action="{{ route('post.update', ['id' => $post->id]) }}">
+                    <form method="POST" action="{{ route('post.show', ['id' => $post->id]) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-danger text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">詳細</button>
+                    </form>
+                    <form method="POST" action="{{ route('post.edit', ['id' => $post->id]) }}">
                         @csrf
                         <button type="submit" class="btn btn-danger text-white bg-red-700 hover:bg-red-800 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">編集</button>
                     </form>

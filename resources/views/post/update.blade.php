@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div style="width:50%; margin: 0 auto; text-align:center;">
+    <div style="width:50%; margin: 0 auto; text-align:center;" id="editor">
         @if ($errors->any())
 	    <div class="alert alert-danger">
 	        <ul>
@@ -35,4 +35,16 @@
             <button>送信</button>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/@editorjs/header@latest"></script>
+    <script>
+        const editor = new EditorJS({
+    
+            holder: 'editor',
+    
+            tools: {
+                header: Header,        
+            }
+    
+    });
+    </script>
 </x-app-layout>

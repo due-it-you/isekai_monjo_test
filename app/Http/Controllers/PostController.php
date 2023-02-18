@@ -64,11 +64,21 @@ class PostController extends Controller
             return view('post.tag.show', compact('posts'));
     }
 
+    public function show(Request $request) {
+        return view('post.show');
+    }
+
     public function update($id) {
         $post = Post::find($id);
         // dd($post);
 
         return view('/post/update', compact('post'));
+    }
+
+    public function edit($id) {
+        $post = Post::find($id);
+
+        return view('post.edit', compact('post'));
     }
 
     public function destroy($id)

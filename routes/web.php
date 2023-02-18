@@ -32,6 +32,8 @@ Route::post('/destroy/{id}', [PostController::class, 'destroy'])->name('post.des
 Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
 Route::post('/posts/update/{id}', [PostController::class, 'update'])->name('post.update');
+Route::post('/posts/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
+Route::post('/posts/show/{id}', [PostController::class, 'show'])->name('post.show');
 
 Route::post('/tags', [TagController::class, 'store']);
 

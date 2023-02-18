@@ -3,11 +3,14 @@
  * includes Vue and other libraries. It is a great starting point when
  * building robust, powerful web applications using Vue and Laravel.
  */
-
+import * as Vue from 'vue';
 import './bootstrap';
 import {
     createApp
 } from 'vue';
+import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import axios from 'axios';
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,19 +18,15 @@ import {
  * to use in your application's views. An example is included for you.
  */
 
+
+import EditComponent from './components/EditComponent.vue';
+
 const app = createApp({
     components: {
-        CreateStoreTagComponent,
-        SuggestTag,
+        // CreateStoreTagComponent,
+        EditComponent
     }
-}).mount('#app');
-
-import CreateStoreTagComponent from './components/CreateStoreTagComponent.vue';
-app.component('create-store-tag-component', CreateStoreTagComponent);
-
-import SuggestTagComponent from './components/SuggestTagComponent.vue';
-app.component('suggest-tag-component', SuggestTagComponent);
-
+});
 
 /**
  * The following block of code may be used to automatically register your
