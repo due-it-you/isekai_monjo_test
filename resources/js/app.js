@@ -19,12 +19,14 @@ import axios from 'axios';
  */
 
 
-import EditComponent from './components/EditComponent.vue';
+import CreateContent from './components/CreateContent.vue';
+import CreateTitle from './components/CreateTitle.vue';
 
 const app = createApp({
     components: {
         // CreateStoreTagComponent,
-        EditComponent
+        'create-title-component': CreateTitle,
+        'create-content-component': CreateContent
     }
 });
 
