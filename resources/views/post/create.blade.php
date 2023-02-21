@@ -8,9 +8,9 @@
             <div class="bg-white w-9/12 m-5 p-5 rounded-2xl drop-shadow-lg">
                 <div>
                     <div class="text-4xl font-bold p-5 mt-4">
-                        <form action="" method="POST">
+                        <form action="{{ route('post.store') }}" method="POST">
                             @csrf
-                            <input type="text" placeholder="Type Title Here..." class="text-4xl font-bold">
+                            <input name="title" type="text" placeholder="Type Title Here..." class="text-4xl font-bold">
                         </div>
                         <hr class="border-gray-300 mx-5">
                     </div>
@@ -23,7 +23,7 @@
                             </div>
                             <div>
                                 <div>
-                                    <button class="bg-blue-200 rounded-md px-4 py-1 text-black">送信</button>
+                                    {{-- <button class="bg-blue-200 rounded-md px-4 py-1 text-black">送信</button> --}}
                                 </div>
                             </div>
                         </form>
