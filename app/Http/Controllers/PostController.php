@@ -30,20 +30,44 @@ class PostController extends Controller
 
     public function store(PostStoreRequest $request)
     {
-        //バリデーションをかけた投稿内容と、その投稿主のログインidを取得
-        $validatedData = ($request->validated() + ['user_id' => Auth::id()]);
-        //それらをPostテーブルに登録
-        $post = Post::create($validatedData);
+        try {
+            //ユーザーモデルインスタンスの取得
+            $user = Auth::user();
+            //リクエストで受け取ったcontentの内容をjson->連想配列にデコード
+            $content = json_decode($request->input('content'), true);
+            //連想配列のそれぞれの配列からtextデータだけ取り出す
+            foreach($content['blocks'] as $block) {
+                    $texts[] = $block['data']['text'];
+            }
+
+            $contentString = implode("\n", $texts);
+
+            //DBに保存
+            $post = $user->posts()->create([
+                'title' => $request->input('title'),
+                'content' => $contentString,
+            ]);
+
+        } catch (ValidationException $e) {
+
+            return back()->withErrors($e->errors())->withInput();
+        }
+
+
+        // //バリデーションをかけた投稿内容と、その投稿主のログインidを取得
+        // $validatedData = ($request->validated() + ['user_id' => Auth::id()]);
+        // //それらをPostテーブルに登録
+        // $post = Post::create($validatedData);
         
-        //DBに保存
-        $tag = Tag::firstOrCreate([
-            'tag_label' => $request->input('tag_label')
-        ]);
+        // //DBに保存
+        // $tag = Tag::firstOrCreate([
+        //     'tag_label' => $request->input('tag_label')
+        // ]);
 
-        //tag_postの中間テーブルに保存
-        $post->tags()->sync($tag->id);
+        // //tag_postの中間テーブルに保存
+        // $post->tags()->sync($tag->id);
 
-        return to_route('home');
+        // return to_route('home');
     } 
 
     public function search(Request $request)

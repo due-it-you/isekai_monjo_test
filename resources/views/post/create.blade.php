@@ -8,32 +8,28 @@
             <div class="bg-white w-9/12 m-5 p-5 rounded-2xl drop-shadow-lg">
                 <div>
                     <div class="text-4xl font-bold p-5 mt-4">
-                        <form action="{{ route('post.store') }}" method="POST">
-                            @csrf
-                            <input name="title" type="text" placeholder="Type Title Here..." class="text-4xl font-bold">
-                        </div>
-                        <hr class="border-gray-300 mx-5">
+                        @csrf
+                            <input v-model="title" name="title" type="text" placeholder="Type Title Here..." class="text-4xl font-bold">
                     </div>
-                    <div>
-                        <div class="p-5 mt-4">
-                            <div id="app" class="bg-neutral-100">
-                                <div>
-                                    <create-content-component></create-content-component>
-                                </div>
-                            </div>
+                    <hr class="border-gray-300 mx-5">
+                </div>
+                <div>
+                    <div class="p-5 mt-4">
+                        <div id="app" class="bg-neutral-100">
                             <div>
-                                <div>
-                                    {{-- <button class="bg-blue-200 rounded-md px-4 py-1 text-black">送信</button> --}}
-                                </div>
+                                <create-content-component></create-content-component>
                             </div>
-                        </form>
                         </div>
                     </div>
                 </div>
-                <div class="float-right bg-white w-3/12 m-5 rounded-2xl drop-shadow-lg">
-                    サイドバー
-                </div>
+            </div>
+            <div class="float-right bg-white w-3/12 m-5 rounded-2xl drop-shadow-lg">
+                サイドバー
+            </div>
     </div>
+    <script>
+        window.csrfToken = "{{ csrf_token() }}";
+    </script>
 </x-app-layout>
 
 {{-- <x-app-layout>
