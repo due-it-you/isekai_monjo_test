@@ -17,9 +17,24 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::paginate(5);
-        $data = ['posts' => $posts];
-        return view('home', $data);
+        $posts = Post::get()->all();
+        
+        foreach($posts as $post) {
+        //JSON形式から配列の形へ上書き
+        $post->content = json_decode($post->content, true);
+        }
+
+        //確認できた!
+        dd($post->content);
+
+
+        // //posts配列を取り出す
+        // $posts = Post::paginate(5);
+        // $postsAssociative = ['posts' => $posts];
+        // dd($postsAssociative);
+        // $postsArray = json_decode($posts->content);
+
+        return view('home',);
     }
 
     public function create()
@@ -33,24 +48,34 @@ class PostController extends Controller
         try {
             //ユーザーモデルインスタンスの取得
             $user = Auth::user();
-            //リクエストで受け取ったcontentの内容をjson->連想配列にデコード
-            $content = json_decode($request->input('content'), true);
-            //連想配列のそれぞれの配列からtextデータだけ取り出す
-            foreach($content['blocks'] as $block) {
-                    $texts[] = $block['data']['text'];
-            }
 
-            $contentString = implode("\n", $texts);
+            $decodedData = json_decode($request->input('content'), true);
+            $blocks = $decodedData['blocks'];
 
+            $content = [
+                'blocks' => $blocks,
+            ];
+
+            $contentJson = json_encode($content, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+            
             //DBに保存
             $post = $user->posts()->create([
                 'title' => $request->input('title'),
-                'content' => $contentString,
+                'content' => $contentJson,
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Post created successfully'
             ]);
 
         } catch (ValidationException $e) {
 
-            return back()->withErrors($e->errors())->withInput();
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors()
+            ]);
         }
 
 
