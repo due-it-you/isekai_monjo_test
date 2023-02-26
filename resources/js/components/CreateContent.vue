@@ -25,6 +25,7 @@ const editor = new EditorJS({
       }
     });
 
+//reactiveで、エディタ内の入力情報を監視
 const outputData = reactive({ blocks: [], time: null });
 const title = ref('');
 

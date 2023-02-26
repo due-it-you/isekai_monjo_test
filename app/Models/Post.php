@@ -17,6 +17,18 @@ class Post extends Model
         'user_id',
     ];
 
+    // contentアクセサの定義
+    public function getContentAttribute($value)
+    {
+        $content = json_decode($value, true);
+
+        foreach ($content['blocks'] as &$block) {
+            $block['data']['text'] = html_entity_decode($block['data']['text']);
+        }
+
+        return $content;
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);

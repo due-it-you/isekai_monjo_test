@@ -58,9 +58,6 @@
                     <div>
                         <a href="/posts/search?tag={{ $tag->tag_label }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#{{ $tag->tag_label }}</a>
                     </div>
-                    @php
-                        dd($post->content);
-                    @endphp
                     @endforeach
 
                     {{-- 投稿内容 --}}
@@ -68,9 +65,9 @@
                         <div>
                             @if ($block['type'] === 'header')
                                 <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
-    
+                    
                             @elseif ($block['type'] === 'paragraph')
-                                <p>{{ $block['data']['text'] }}</p>
+                                <p>{!! $block['data']['text'] !!}</p>
                             @endif
                         </div>
                     @endforeach

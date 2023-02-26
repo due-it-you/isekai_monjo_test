@@ -19,11 +19,6 @@ class PostController extends Controller
     {
         $posts = Post::paginate(5);
 
-        foreach($posts as $post)
-        {
-            $post->content = json_decode($post->content, true);
-        }
-
         return view('home', ['posts' => $posts]);
     }
 
@@ -49,8 +44,13 @@ class PostController extends Controller
                 'blocks' => $blocks,
             ];
 
+            foreach ($content['blocks'] as &$block) 
+            {
+                $block['data']['text'] = htmlspecialchars($block['data']['text']);
+            }  
+
             //エンコード（連想配列⇨JSON形式）
-            $contentJson = json_encode($content, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
+            $contentJson = json_encode($content, JSON_UNESCAPED_UNICODE);
             
             //DBに保存
             $post = $user->posts()->create([
