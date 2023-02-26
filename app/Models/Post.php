@@ -23,10 +23,24 @@ class Post extends Model
         $content = json_decode($value, true);
 
         foreach ($content['blocks'] as &$block) {
+            //行ごとにアンエスケープ処理を行う
             $block['data']['text'] = html_entity_decode($block['data']['text']);
         }
 
         return $content;
+    }
+
+    // contentミューテタの定義
+    public function setContentAttribute($value)
+    {
+        $content = json_decode($value, true);
+
+        foreach ($content['blocks'] as &$block) {
+            //行ごとにエスケープ処理を行う
+            $block['data']['text'] = htmlspecialchars($block['data']['text'], ENT_QUOTES, 'UTF-8');
+        }
+
+        $this->attributes['content'] = json_encode($content, JSON_UNESCAPED_UNICODE);
     }
 
     public function user()

@@ -17,6 +17,7 @@ class PostController extends Controller
 
     public function index()
     {
+        //モデルのインスタンスを取得した（contentプロパティにアクセスした）ことで、Postモデルのアクセサが処理
         $posts = Post::paginate(5);
 
         return view('home', ['posts' => $posts]);
@@ -43,11 +44,6 @@ class PostController extends Controller
             $content = [
                 'blocks' => $blocks,
             ];
-
-            foreach ($content['blocks'] as &$block) 
-            {
-                $block['data']['text'] = htmlspecialchars($block['data']['text']);
-            }  
 
             //エンコード（連想配列⇨JSON形式）
             $contentJson = json_encode($content, JSON_UNESCAPED_UNICODE);
