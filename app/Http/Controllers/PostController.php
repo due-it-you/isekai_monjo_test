@@ -17,24 +17,14 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::get()->all();
-        
-        foreach($posts as $post) {
-        //JSON形式から配列の形へ上書き
-        $post->content = json_decode($post->content, true);
+        $posts = Post::paginate(5);
+
+        foreach($posts as $post)
+        {
+            $post->content = json_decode($post->content, true);
         }
 
-        //確認できた!
-        dd($post->content);
-
-
-        // //posts配列を取り出す
-        // $posts = Post::paginate(5);
-        // $postsAssociative = ['posts' => $posts];
-        // dd($postsAssociative);
-        // $postsArray = json_decode($posts->content);
-
-        return view('home',);
+        return view('home', ['posts' => $posts]);
     }
 
     public function create()
@@ -49,13 +39,17 @@ class PostController extends Controller
             //ユーザーモデルインスタンスの取得
             $user = Auth::user();
 
+            //リクエストのcontentの内容をデコード（JSON文字列⇨配列）
             $decodedData = json_decode($request->input('content'), true);
+            //配列から、Blocksプロパティのみを取り出す
             $blocks = $decodedData['blocks'];
 
+            //連想配列化
             $content = [
                 'blocks' => $blocks,
             ];
 
+            //エンコード（連想配列⇨JSON形式）
             $contentJson = json_encode($content, JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);
             
             //DBに保存

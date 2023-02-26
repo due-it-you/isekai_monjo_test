@@ -8,10 +8,15 @@
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
             @foreach($posts as $post)
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 py-7 border border-gray-500">
-                    <p class="font-bold font-xl">{{ $post->title }}</p>
-                    <p>{{ $post->content }}</p>
-                    <p>{{ $post->created_at }}</p>
-                    <p>{{ $post->name }}</p>
+                    <h2>{{ $post->title }}</h2>
+                    @foreach ($post->content['blocks'] as $block)
+                        @if ($block['type'] === 'header')
+                            <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
+
+                        @elseif ($block['type'] === 'paragraph')
+                            <p>{{ $block['data']['text'] }}</p>
+                        @endif
+                    @endforeach
                 </div>
             @endforeach
         </div>

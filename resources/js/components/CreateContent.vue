@@ -15,8 +15,14 @@ const editor = new EditorJS({
       holder: 'editor',
       minHeight : 0,
       tools: {
-        header: Header,
-      },
+        header: {
+          class: Header,
+          config: {
+            placeholder: 'Enter a header',
+            levels: [2,3,4]
+          }
+        }
+      }
     });
 
 const outputData = reactive({ blocks: [], time: null });
