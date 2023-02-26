@@ -68,6 +68,14 @@
                     
                             @elseif ($block['type'] === 'paragraph')
                                 <p>{!! $block['data']['text'] !!}</p>
+
+                            @elseif ($block['type'] === 'quote')
+                                <div>
+                                    <blockquote class="p-4 mt-4 border-l-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800">
+                                        <p class="text-xl italic font-medium leading-relaxed text-gray-900 dark:text-white">{{ $block['data']['text'] }}</p>
+                                    </blockquote>
+                                        <p class="text-left text-sm text-gray-500 dark:text-gray-300">by {{ $block['data']['caption'] }}</p>
+                                </div>
                             @endif
                         </div>
                     @endforeach

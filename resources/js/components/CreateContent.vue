@@ -8,6 +8,7 @@
 <script setup>
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
+import Quote from '@editorjs/quote';
 import { ref, reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -21,7 +22,15 @@ const editor = new EditorJS({
             placeholder: 'Enter a header',
             levels: [2,3,4]
           }
-        }
+        },
+        quote: {
+          class: Quote,
+          inlineToolbar: true,
+          config: {
+            quotePlaceholder: 'Enter a quote',
+            captionPlaceholder: 'Quote\'s author'
+          }
+        },
       }
     });
 
