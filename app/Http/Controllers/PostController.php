@@ -18,8 +18,8 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::paginate(5);
-        $data = ['posts' => $posts];
-        return view('home', $data);
+
+        return view('home', ['posts' => $posts]);
     }
 
     public function create()
@@ -33,24 +33,43 @@ class PostController extends Controller
         try {
             //ユーザーモデルインスタンスの取得
             $user = Auth::user();
-            //リクエストで受け取ったcontentの内容をjson->連想配列にデコード
-            $content = json_decode($request->input('content'), true);
-            //連想配列のそれぞれの配列からtextデータだけ取り出す
-            foreach($content['blocks'] as $block) {
-                    $texts[] = $block['data']['text'];
-            }
 
-            $contentString = implode("\n", $texts);
+            //リクエストのcontentの内容をデコード（JSON文字列⇨配列）
+            $decodedData = json_decode($request->input('content'), true);
+            //配列から、Blocksプロパティのみを取り出す
+            $blocks = $decodedData['blocks'];
 
+            //連想配列化
+            $content = [
+                'blocks' => $blocks,
+            ];
+
+            foreach ($content['blocks'] as &$block) 
+            {
+                $block['data']['text'] = htmlspecialchars($block['data']['text']);
+            }  
+
+            //エンコード（連想配列⇨JSON形式）
+            $contentJson = json_encode($content, JSON_UNESCAPED_UNICODE);
+            
             //DBに保存
             $post = $user->posts()->create([
                 'title' => $request->input('title'),
-                'content' => $contentString,
+                'content' => $contentJson,
+            ]);
+            
+            return response()->json([
+                'success' => true,
+                'message' => 'Post created successfully'
             ]);
 
         } catch (ValidationException $e) {
 
-            return back()->withErrors($e->errors())->withInput();
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors()
+            ]);
         }
 
 

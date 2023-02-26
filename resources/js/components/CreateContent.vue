@@ -15,10 +15,17 @@ const editor = new EditorJS({
       holder: 'editor',
       minHeight : 0,
       tools: {
-        header: Header,
-      },
+        header: {
+          class: Header,
+          config: {
+            placeholder: 'Enter a header',
+            levels: [2,3,4]
+          }
+        }
+      }
     });
 
+//reactiveで、エディタ内の入力情報を監視
 const outputData = reactive({ blocks: [], time: null });
 const title = ref('');
 
@@ -29,12 +36,16 @@ const handleSave = async () => {
     const response = await axios.post('/posts/store', {
   content: JSON.stringify(outputData.value),
   title: document.querySelector('input[name="title"]').value,
-}, {
-  headers: {
-    'X-CSRF-TOKEN': window.csrfToken,
-  }
-});
+}, 
+//Laravelのデフォルト設定にあるX-XSRF-TOKENを利用するものとする
+// {
+//   headers: {
+//     'X-CSRF-TOKEN': window.csrfToken,
+//             }
+//           }
+          );
 
+    //開発ツールのコンソール画面にてレスポンス結果を表示
     console.log('reponse:', response);
 
     //もしレスポンスのHTTPステータスが200(成功)の時、home画面に遷移
@@ -43,7 +54,10 @@ const handleSave = async () => {
     }
 
   } catch (error) {
+    //開発ツールのコンソール画面にてエラー結果を表示
     console.error('Saving failed: ', error);
+
+    }
+
   }
-}
 </script>

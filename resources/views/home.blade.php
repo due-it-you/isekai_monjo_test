@@ -59,7 +59,19 @@
                         <a href="/posts/search?tag={{ $tag->tag_label }}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">#{{ $tag->tag_label }}</a>
                     </div>
                     @endforeach
-                    <p>{{ $post->content }}</p>
+
+                    {{-- 投稿内容 --}}
+                    @foreach ($post->content['blocks'] as $block)
+                        <div>
+                            @if ($block['type'] === 'header')
+                                <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
+                    
+                            @elseif ($block['type'] === 'paragraph')
+                                <p>{!! $block['data']['text'] !!}</p>
+                            @endif
+                        </div>
+                    @endforeach
+
                     <p>{{ $post->created_at }}</p>
                     <p>by {{ $post->user->name }}</p>
                     <form method="POST" action="{{ route('post.show', ['id' => $post->id]) }}">
