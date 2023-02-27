@@ -64,18 +64,44 @@
                     @foreach ($post->content['blocks'] as $block)
                         <div>
                             @if ($block['type'] === 'header')
-                                <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
-                    
+                                @if($block['tunes']['alignmentTuneTool']['alignment'] === 'left')
+                                    <div class="text-left">
+                                        <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
+                                    </div>
+
+                                @elseif($block['tunes']['alignmentTuneTool']['alignment'] === 'center')
+                                    <div class="text-center">
+                                        <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
+                                    </div>
+
+                                @elseif($block['tunes']['alignmentTuneTool']['alignment'] === 'right')
+                                    <div class="text-right">
+                                        <h{{ $block['data']['level'] }} class="block_h{{ $block['data']['level'] }}">{{ $block['data']['text'] }}</h{{ $block['data']['level'] }}>
+                                    </div>
+
+                                @endif
                             @elseif ($block['type'] === 'paragraph')
                                 <p>{!! $block['data']['text'] !!}</p>
 
                             @elseif ($block['type'] === 'quote')
                                 <div>
                                     <blockquote class="p-4 mt-4 border-l-4 border-gray-300 bg-gray-50 dark:border-gray-500 dark:bg-gray-800">
-                                        <p class="text-xl italic font-medium leading-relaxed text-gray-900 dark:text-white">{{ $block['data']['text'] }}</p>
+                                        <p class="text-xl italic font-medium leading-relaxed text-gray-900 dark:text-white">"{{ $block['data']['text'] }}"</p>
                                     </blockquote>
                                         <p class="text-left text-sm text-gray-500 dark:text-gray-300">by {{ $block['data']['caption'] }}</p>
                                 </div>
+                            
+                            @elseif ($block['type'] === 'warning')
+                            <div id="alert-additional-content-4" class="p-4 mb-4 text-yellow-800 border border-yellow-300 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300 dark:border-yellow-800" role="alert">
+                                <div class="flex items-center">
+                                  <svg aria-hidden="true" class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                                  <span class="sr-only">Info</span>
+                                  <h3 class="text-lg font-medium">{!! $block['data']['title'] !!}</h3>
+                                </div>
+                                <div class="mt-2 text-sm">
+                                  {!! $block['data']['message'] !!}
+                                </div>
+                              </div>
                             @endif
                         </div>
                     @endforeach

@@ -7,8 +7,10 @@
 </template>
 <script setup>
 import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
+import Header from "@editorjs/header";
 import Quote from '@editorjs/quote';
+import Warning from '@editorjs/warning';
+import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
 import { ref, reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 
@@ -18,20 +20,35 @@ const editor = new EditorJS({
       tools: {
         header: {
           class: Header,
+          tunes: ['alignmentTuneTool'],
           config: {
             placeholder: 'Enter a header',
-            levels: [2,3,4]
+            levels: [2,3,4],
+            defaultAlignment: 'left'
           }
         },
         quote: {
           class: Quote,
+          tunes: ['TalignmentTuneTool'],
           inlineToolbar: true,
           config: {
             quotePlaceholder: 'Enter a quote',
             captionPlaceholder: 'Quote\'s author'
           }
         },
-      }
+        warning: {
+          class: Warning,
+          tunes: ['alignmentTuneTool'],
+          inlineToolbar: true,
+          config: {
+            titlePlaceholder: 'Warning Title',
+            messagePlaceholder: 'Warning Message',
+          },
+        },
+        alignmentTuneTool: {
+          class: AlignmentTuneTool
+        },
+      },
     });
 
 //reactiveで、エディタ内の入力情報を監視
