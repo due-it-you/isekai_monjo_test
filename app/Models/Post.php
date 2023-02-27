@@ -22,9 +22,19 @@ class Post extends Model
     {
         $content = json_decode($value, true);
 
+        
         foreach ($content['blocks'] as &$block) {
             //行ごとにアンエスケープ処理を行う
-            $block['data']['text'] = html_entity_decode($block['data']['text']);
+
+            if ($block['type'] === 'paragraph' || $block['type'] === 'header')
+            {
+                $block['data']['text'] = html_entity_decode($block['data']['text']);
+            }
+            elseif ($block['type'] === 'warning')
+            {
+                $block['data']['title'] = html_entity_decode($block['data']['title']);
+                $block['data']['message'] = html_entity_decode($block['data']['message']);
+            }
         }
 
         return $content;
@@ -37,7 +47,16 @@ class Post extends Model
 
         foreach ($content['blocks'] as &$block) {
             //行ごとにエスケープ処理を行う
-            $block['data']['text'] = htmlspecialchars($block['data']['text'], ENT_QUOTES, 'UTF-8');
+
+            if ($block['type'] === 'paragraph' || $block['type'] === 'header')
+            {
+                $block['data']['text'] = htmlspecialchars($block['data']['text'], ENT_QUOTES, 'UTF-8');
+            }
+            elseif($block['type'] === 'warning')
+            {
+                $block['data']['title'] = htmlspecialchars($block['data']['title'], ENT_QUOTES, 'UTF-8');
+                $block['data']['message'] = htmlspecialchars($block['data']['message'], ENT_QUOTES, 'UTF-8');
+            }
         }
 
         $this->attributes['content'] = json_encode($content, JSON_UNESCAPED_UNICODE);
