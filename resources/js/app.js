@@ -20,13 +20,15 @@ import axios from 'axios';
 
 
 import CreateContent from './components/CreateContent.vue';
+import EditContent from './components/EditContent.vue';
 import CreateTitle from './components/CreateTitle.vue';
 
 const app = createApp({
     components: {
         // CreateStoreTagComponent,
         'create-title-component': CreateTitle,
-        'create-content-component': CreateContent
+        'create-content-component': CreateContent,
+        'edit-content-component': EditContent,
     }
 });
 

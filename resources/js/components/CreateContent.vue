@@ -14,6 +14,7 @@ import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
 import { ref, reactive, computed, onMounted } from 'vue';
 import axios from 'axios';
 
+
 const editor = new EditorJS({
       holder: 'editor',
       minHeight : 0,

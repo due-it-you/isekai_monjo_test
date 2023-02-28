@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/tags', [TagController::class, 'store'])->name('api.tags');
+Route::post('/api/get/id', [PostController::class, 'getid'])->name('api.get.id');

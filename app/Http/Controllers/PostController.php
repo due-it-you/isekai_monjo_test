@@ -118,7 +118,13 @@ class PostController extends Controller
     public function edit($id) {
         $post = Post::find($id);
 
-        return view('post.edit', compact('post'));
+        //投稿の取得
+        //投稿の中からcontent（JSON）を取り出す
+        //parse()にてJSON => Objectにする
+        //EditContent.vue側に値を渡す
+        
+
+        return view('post.edit', ['post' => $post]);
     }
 
     public function destroy($id)
