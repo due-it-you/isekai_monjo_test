@@ -1,9 +1,8 @@
 <template>
-<div>
-  <div id="editor"></div>
-  <button @click="handleSave">Create</button>
-  <!-- <pre>{{ JSON.stringify(outputData.value, null, 2) }}</pre> -->
-</div>
+  <div>
+    <div id="editor"></div>
+    <button @click="handleSave">Create</button>
+  </div>
 </template>
 <script setup>
 import EditorJS from '@editorjs/editorjs';
@@ -59,18 +58,11 @@ const title = ref('');
 const handleSave = async () => {
   try {
     outputData.value = await editor.save();
-    console.log('Article data: ', outputData.value);
     const response = await axios.post('/posts/store', {
-  content: JSON.stringify(outputData.value),
-  title: document.querySelector('input[name="title"]').value,
-}, 
-//Laravelのデフォルト設定にあるX-XSRF-TOKENを利用するものとする
-// {
-//   headers: {
-//     'X-CSRF-TOKEN': window.csrfToken,
-//             }
-//           }
-          );
+    content: JSON.stringify(outputData.value),
+    title: document.querySelector('input[name="title"]').value,
+        }, 
+      );
 
     //開発ツールのコンソール画面にてレスポンス結果を表示
     console.log('reponse:', response);

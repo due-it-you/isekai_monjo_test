@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PostStoreRequest;
+use App\Http\Requests\PostUpdateRequest;
 use Illuminate\Http\Request;
 #使用するモデルの読み込み。
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Revision;
 
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +34,8 @@ class PostController extends Controller
     public function store(PostStoreRequest $request)
     {
         try {
+            // dd($request->input('content'));
+
             //ユーザーモデルインスタンスの取得
             $user = Auth::user();
 
@@ -108,11 +112,56 @@ class PostController extends Controller
         return view('post.show', compact('post'));
     }
 
-    public function update($id) {
-        $post = Post::find($id);
-        // dd($post);
+    public function update(PostUpdateRequest $request) {
+        try {
+            //ユーザーモデルインスタンスの取得
+            $user = Auth::user();
 
-        return view('/post/update', compact('post'));
+            //更新対象の投稿のidを取得
+            $postId = $request->input('postId');
+
+            //更新対象の投稿のモデルインスタンスを取得
+            $post = $user->posts()->find($postId);
+
+            //リクエストのcontentの内容をデコード（JSON文字列⇨配列）
+            $decodedData = json_decode($request->input('content'), true);
+
+            //配列から、Blocksプロパティのみを取り出す
+            $blocks = $decodedData['blocks'];
+
+            //連想配列化
+            $content = [
+                'blocks' => $blocks,
+            ];
+
+            //エンコード（連想配列⇨JSON形式）
+            $contentJson = json_encode($content, JSON_UNESCAPED_UNICODE);
+            
+            //現行の投稿内容を上書き
+            $currentPost = $user->posts()->where('id', $postId)->update([
+                'content' => $contentJson,
+            ]);
+
+            //更新内容の新規作成
+            $revisionPost = $post->revisions()->create([
+                'rev_content' => $contentJson, 
+                'post_id' => $post->id,
+                'user_id' => $user->id,
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Post created successfully'
+            ]);
+
+        } catch (ValidationException $e) {
+
+            return response()->json([
+                'success' => false,
+                'message' => 'Validation error',
+                'errors' => $e->errors()
+            ]);
+        }  
     }
 
     public function edit($id) {
