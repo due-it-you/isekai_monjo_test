@@ -8,6 +8,7 @@
     import EditorJS from '@editorjs/editorjs';
     import Header from "@editorjs/header";
     import Quote from '@editorjs/quote';
+    import BreakLine from 'editorjs-break-line';
     import Warning from '@editorjs/warning';
     import AlignmentTuneTool from 'editorjs-text-alignment-blocktune';
     import { defineProps, ref, reactive, onMounted } from "vue";
@@ -41,6 +42,10 @@
                 captionPlaceholder: 'Quote\'s author'
                 }
             },
+            breakLine: {
+                class: BreakLine,
+                inlineToolbar: true,
+                },
             warning: {
                 class: Warning,
                 tunes: ['alignmentTuneTool'],

@@ -101,7 +101,14 @@
                                 <div class="mt-2 text-sm">
                                   {!! $block['data']['message'] !!}
                                 </div>
-                              </div>
+                            </div>
+
+                            @elseif ($block['type'] === 'breakLine' && $block['data']['divider'] === false)
+                                <br><br>
+
+                            @elseif ($block['type'] === 'breakLine' && $block['data']['divider'] === true)
+                                <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
+
                             @endif
                         </div>
                     @endforeach
