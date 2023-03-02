@@ -32,6 +32,7 @@ Route::post('/destroy/{id}', [PostController::class, 'destroy'])->name('post.des
 Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
 Route::get('/posts/search', [PostController::class, 'search'])->name('posts.search');
 Route::post('/posts/update', [PostController::class, 'update'])->name('post.update');
+Route::get('/posts/update/history/{id}', [PostController::class, 'editHistory'])->name('post.edit.history');
 Route::post('/posts/edit/{id}', [PostController::class, 'edit'])->name('post.edit');
 Route::post('/posts/show/{id}', [PostController::class, 'show'])->name('post.show');
 

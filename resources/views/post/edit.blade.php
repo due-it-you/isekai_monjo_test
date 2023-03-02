@@ -7,6 +7,9 @@
     <div class="flex mx-auto w-10/12 justify-center">
             <div class="bg-white w-9/12 m-5 p-5 rounded-2xl drop-shadow-lg">
                 <div>
+                    <div>
+                        <a href="{{ route('post.edit.history', ['id' => $post->id]) }}" class="text-blue-300">更新履歴の表示</a>
+                    </div>
                     <div class="text-4xl font-bold p-5 mt-4">
                         @csrf
                             <p class="text-4xl font-bold">{{ $post->title }}</p>

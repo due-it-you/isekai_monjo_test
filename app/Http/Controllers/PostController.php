@@ -41,6 +41,7 @@ class PostController extends Controller
 
             //リクエストのcontentの内容をデコード（JSON文字列⇨配列）
             $decodedData = json_decode($request->input('content'), true);
+
             //配列から、Blocksプロパティのみを取り出す
             $blocks = $decodedData['blocks'];
 
@@ -174,6 +175,21 @@ class PostController extends Controller
         
 
         return view('post.edit', ['post' => $post]);
+    }
+
+    public function editHistory($id) {
+
+        $user = Auth::user();
+
+        $firstPost = $user->posts()->find($id);
+
+        //その投稿の全ての更新内容
+        $post_revisions = $firstPost->revisions()->where('post_id', $id)->get();
+
+        //投稿の更新ごとのデータを配列化
+        $postRevisionsArray = json_decode($post_revisions, true);
+
+        return view('post.history', ['postRevisionsArray' => $postRevisionsArray]);
     }
 
     public function destroy($id)

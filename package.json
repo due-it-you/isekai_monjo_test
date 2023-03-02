@@ -27,6 +27,7 @@
     "dependencies": {
         "@editorjs/editorjs": "^2.26.5",
         "@editorjs/header": "^2.7.0",
+        "diff-match-patch": "^1.0.5",
         "editorjs-header-with-alignment": "^1.0.1",
         "editorjs-text-alignment-blocktune": "^1.0.3",
         "vue-router": "^4.1.6"
